@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import authImage from '../../../assets/authImage.png'
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -16,12 +16,16 @@ const Login = () => {
   } = useForm();
 
   const navigate = useNavigate()
+  const location = useLocation()
+  console.log('in the login page', location)
 
   const handleLogin = (data) => {
     signInUser(data.email, data.password)
       .then((result) => {
         console.log("after login", result);
-        navigate('/')
+        //redirect to desired location or homepage
+        navigate( location?.state || '/')
+
         setTimeout(() => {
           toast.success('Success! You are logged in.')
         }, 1000)
@@ -34,7 +38,8 @@ const Login = () => {
     googleSignIn()
     .then((result) => {
         console.log("after login", result);
-        navigate('/')
+        navigate( location?.state || '/')
+
         setTimeout(() => {
           toast.success('Success! You are logged in.')
         }, 1000)
@@ -85,6 +90,8 @@ const Login = () => {
           </form>
           <button onClick={handleGoogleSignIn} className="btn btn-secondary btn-outline"><FcGoogle size={30} />Login with Google</button>
         </div>
+          <p className="my-6">Or</p>
+          <p>Don't have account? <Link to={'/register'} state={location.state} className="link link-hover text-secondary">Register</Link></p>
       </div>
       <div className="flex-1 bg-accent">
         <img src={authImage} alt="" />

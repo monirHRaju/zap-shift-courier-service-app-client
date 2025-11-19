@@ -4,7 +4,7 @@ import Logo from '../components/logo/Logo';
 const AuthLayouts = () => {
     
     return (
-        <div className='max-w-7xl mx-auto'>
+        <div className='max-w-7xl mx-auto p-5 md:p-0'>
             <div>
                 <Link to={'/'}><Logo></Logo></Link>
             </div>

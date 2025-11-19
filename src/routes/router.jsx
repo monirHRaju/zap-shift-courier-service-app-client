@@ -9,6 +9,8 @@ import Loading from "../pages/Loading/Loading";
 import AuthLayouts from "../layouts/AuthLayouts";
 import Login from "../pages/AuthPages/Login/Login";
 import Register from "../pages/AuthPages/Register/Register";
+import PrivateRoute from "./PrivateRoute";
+import Rider from "../pages/Rider/Rider";
 
 export const router = createBrowserRouter([
   {
@@ -46,11 +48,15 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         Component: Register
+      },
+      {
+        path: '/rider',
+        element: <PrivateRoute><Rider></Rider></PrivateRoute>
       }
     ]
   },
   {
     path: '/*',
-    Component: Error
+    Component: Loading
   }
 ]);
