@@ -47,9 +47,9 @@ const Login = () => {
       .catch((error) => console.log(error));
   }
   return (
-    <div className="flex items-center justify-between my-18 h-vh">
-      <div className="flex-1">
-        <div >
+    <div className="md:flex items-center justify-between my-18 h-vh">
+      <div className="md:flex-1 p-5 bg-white rounded-lg">
+        <div className="">
           <form onSubmit={handleSubmit(handleLogin)}>
             <fieldset className="fieldset">
               {/* email */}
@@ -85,15 +85,15 @@ const Login = () => {
               <div>
                 <Link to={'/forget-password'} className="link link-hover">Forgot password?</Link>
               </div>
+              <button className="btn w-fit mt-4">Login</button>
             </fieldset>
-              <button className="btn mt-4">Login</button>
           </form>
           <button onClick={handleGoogleSignIn} className="btn btn-secondary btn-outline"><FcGoogle size={30} />Login with Google</button>
         </div>
           <p className="my-6">Or</p>
           <p>Don't have account? <Link to={'/register'} state={location.state} className="link link-hover text-secondary">Register</Link></p>
       </div>
-      <div className="flex-1 bg-accent">
+      <div className="md:flex-1 bg-accent">
         <img src={authImage} alt="" />
         <ToastContainer></ToastContainer>
       </div>

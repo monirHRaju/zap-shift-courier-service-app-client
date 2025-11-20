@@ -56,11 +56,11 @@ const Register = () => {
       .catch((error) => console.log(error));
   }
   return (
-    <div className="flex items-center justify-between my-18 h-vh">
-      <div className="flex-1">
+    <div className="flex items-center p-5 lg:p-0 justify-between my-18">
+      <div className="flex-1 bg-white rounded-lg p-5">
         <div>
-          <form onSubmit={handleSubmit(handleRegister)}>
-            <fieldset className="fieldset bg-white">
+          <form onSubmit={handleSubmit(handleRegister)} >
+            <fieldset className="fieldset">
               {/* name */}
               <label className="label">Name</label>
               <input
@@ -126,12 +126,12 @@ const Register = () => {
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>
-            </fieldset>
               <button className="btn mt-4">Register</button>
+            </fieldset>
           </form>
           <button
             onClick={handleGoogleSignIn}
-            className="btn btn-secondary btn-outline"
+            className="btn btn-secondary w-full btn-outline"
           >
             <FcGoogle size={30} />
             Login with Google

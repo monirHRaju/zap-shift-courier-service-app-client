@@ -11,6 +11,7 @@ import Login from "../pages/AuthPages/Login/Login";
 import Register from "../pages/AuthPages/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import Rider from "../pages/Rider/Rider";
+import Parcel from "../pages/Parcel/Parcel";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,12 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         Component: Register
+      },
+      {
+        path: '/parcel',
+        element: <PrivateRoute> <Parcel> </Parcel></PrivateRoute>,
+        loader: () => fetch('/serviceCenters.json').then(res => res.json())
+        
       },
       {
         path: '/rider',
