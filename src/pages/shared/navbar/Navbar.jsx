@@ -24,10 +24,16 @@ const Navbar = () => {
       <li><NavLink to={'/'}>Home</NavLink></li>
       <li><NavLink to={'/coverage'}>Coverage</NavLink></li>
       <li><NavLink to={'/services'}>Services</NavLink></li>
-      <li><NavLink to={'/parcel'}>Parcel</NavLink></li>
+      <li><NavLink to={'/parcel'}>Send Parcel</NavLink></li>
       <li><NavLink to={'/about'}>About</NavLink></li>
       <li><NavLink to={'/contact'}>Contact</NavLink></li>
 
+      {
+        user&& <>
+          <li><NavLink to={'/dashboard/my-parcels'}>Dashboard</NavLink></li>
+        
+        </>
+      }
     </>
   );
   return (

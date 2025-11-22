@@ -1,6 +1,9 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
 
 const Parcel = () => {
   const serviceCenters = useLoaderData()
@@ -21,6 +24,14 @@ const Parcel = () => {
     formState: { errors },
   } = useForm();
 
+  // import user info
+  const {user} = useAuth()
+
+  //import axios secure 
+  const axiosSecure = useAxiosSecure()
+
+
+
   const senderRegion = watch('senderRegion')
   // const receiverRegion = watch('receiverRegion')
   const receiverRegion =useWatch({control, name: 'receiverRegion'})
@@ -36,6 +47,56 @@ const Parcel = () => {
   }
   const handleParcel = (data) => {
     console.log("from parcel", data);
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict
+    const isDocument = data.parcelType === "document"
+    const parcelWeight = parseFloat(data.parcelWeight)
+
+    let cost = 0;
+    
+    if(isDocument){
+      cost = isSameDistrict ? 60 : 80 
+    } else {
+      if(parcelWeight <= 3){
+        cost = isSameDistrict ? 110 : 150
+      } else {
+        const minCharge = isSameDistrict ? 110 : 150
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict ? extraWeight * 40 : extraWeight * 40 + 40
+
+        cost = minCharge + extraCharge 
+      }
+    }
+
+Swal.fire({
+  title: `Are you agree with the Cost $ ${cost}?`,
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, I agree!"
+}).then((result) => {
+  if (result.isConfirmed) {
+
+      //save the parcel info to the database
+      axiosSecure.post('/parcels', data)
+      .then( res => {
+        console.log('after saving parcel', res)
+      })
+      .catch( e => {
+        console.log('data save error', e)
+      })
+
+    // Swal.fire({
+    //   title: "Parcel Added!",
+    //   text: "Your Parcel has been placed.",
+    //   icon: "success"
+    // });
+  }
+});
+
+    console.log(cost);
+    
   };
 
   return (
@@ -94,16 +155,16 @@ const Parcel = () => {
               </div>
 
               <div>
-                {/* price */}
-                <label className="label">Price</label>
+                {/* Weight */}
+                <label className="label">Weight</label>
                 <input
-                  type="text"
-                  {...register("parcelPrice", { required: true })}
+                  type="number"
+                  {...register("parcelWeight", { required: true })}
                   className="input"
-                  placeholder="Parcel Price"
+                  placeholder="Parcel Weight"
                 />
-                {errors.parcelPrice?.type === "required" && (
-                  <p className="text-red-500">Price is required</p>
+                {errors.parcelWeight?.type === "required" && (
+                  <p className="text-red-500">Weight is required</p>
                 )}
               </div>
             </div>
@@ -127,6 +188,20 @@ const Parcel = () => {
               {errors.senderName?.type === "required" && (
                 <p className="text-red-500">Sender Name is required</p>
               )}
+              
+              {/* Sender email*/}
+              <label className="label">Sender Email</label>
+              <input
+                type="text"
+                {...register("senderEmail", { required: true })}
+                defaultValue={user?.email}
+                className="input"
+                placeholder="Sender Email"
+              />
+              {errors.senderEmail?.type === "required" && (
+                <p className="text-red-500">Sender Email is required</p>
+              )}
+
 
               {/* Sender address */}
               <label className="label">Sender Address</label>
@@ -245,7 +320,7 @@ const Parcel = () => {
                 {...register("receiverRegion", { required: true })}
                 className="select"
               >
-                <option disabled={true} selected>Select Region</option>
+                <option disabled={true} defaultValue="selected">Select Region</option>
                 {
                   regions.map((r, i) => <option key={i}>{r}</option>)
                 }

@@ -5,12 +5,14 @@ import authImage from "../../../assets/authImage.png";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 
 const Register = () => {
-  const { googleSignIn } = useAuth();
+  const { googleSignIn, updateUserProfile } = useAuth();
   const {
     register,
     handleSubmit,
+    
     formState: { errors },
   } = useForm();
   const navigate = useNavigate()
@@ -26,20 +28,46 @@ const Register = () => {
       .then((result) => {
         console.log("after register", result);
         //store the image ang get the photo url
+        // prepare the data for upload
         const formData = new FormData()
         formData.append('image', profileImg)
-        // const imageAPI_URL = 
-        //update user profile
+
+        // upload image
+        const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_UPLOAD_API}`
+        
+        axios.post(image_API_URL, formData)
+        .then( res => {
+          console.log('after image upload', res.data.data.url)
+          //update profile with image url
+          const userProfile = {
+            //get name from input data
+            displayName : data.name,
+            //get photo url from image upload response data
+            photoURL : res.data.data.url
+          }
+
+          updateUserProfile(userProfile)
+          .then(() => console.log('after updating profile done' ))
+          .catch(e => console.log('updating profile error', e ))
 
 
 
-        navigate( location?.state || '/')
+          // navigate( location?.state || '/')
         setTimeout(() => {
           toast.success('Success! You are logged in.')
         }, 1000)
+
+        })
+        .catch(e => {
+          console.log('no img upload error', e)
+        })
+
+
+
+        
       })
       .catch((error) => {
-        console.log(error);
+        console.log('registration failed:', error);
       });
   };
 
