@@ -2,8 +2,8 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Parcel = () => {
   const serviceCenters = useLoaderData()
@@ -66,6 +66,10 @@ const Parcel = () => {
         cost = minCharge + extraCharge 
       }
     }
+
+    // add cost to data to store in database
+    data.cost = cost;
+
 
 Swal.fire({
   title: `Are you agree with the Cost $ ${cost}?`,
