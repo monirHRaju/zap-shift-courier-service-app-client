@@ -69,6 +69,7 @@ const Parcel = () => {
 
     // add cost to data to store in database
     data.cost = cost;
+    data.paymentStatus = 'unpaid';
 
 
 Swal.fire({

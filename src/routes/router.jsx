@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
   },
   {
     path: 'dashboard',
-    element: <PrivateRoute><DashboardLayouts></DashboardLayouts></PrivateRoute>,
+    element: <DashboardLayouts></DashboardLayouts>,
     children: [
       {
         path: 'my-parcels',
