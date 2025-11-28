@@ -83,9 +83,9 @@ const DashboardLayouts = () => {
             
             <li>
               <NavLink
-                to="/dashboard/my-payments"
+                to="/dashboard/payment-history"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Parcels"
+                data-tip="Payment History"
               >
                 {/* Home icon */}
                 <FaMoneyBills

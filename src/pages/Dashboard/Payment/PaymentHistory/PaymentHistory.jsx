@@ -1,21 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/useAuth";
 
-const Payments = () => {
-    const {user} =useAuth()
-    const {data: payments=[]} = useQuery({
+const PaymentHistory = () => {
+    const {user} = useAuth()
+    const axiosSecure = useAxiosSecure()
+    
+    const {data: payments = []} = useQuery({
         queryKey: ["payments", user.email],
         queryFn: async() => {
-            const res = await useAxiosSecure.get(`/payments?email=${user?.email}`)
+            const res = await axiosSecure.get(`/payments?customerEmail=${user.email}`)
 
             return res.data
         }
     })
-  return (
+    console.log('user info: ', user)
+    return (
     <div>
-      <h2>All of my payments : {payments.length}</h2>
+      <h2 className="text-5xl">All of my payments : {payments.length}</h2>
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           {/* head */}
@@ -30,7 +33,7 @@ const Payments = () => {
             </tr>
           </thead>
           <tbody>
-            {payments.map((payment, index) => (
+            {/* {payments.map((payment, index) => (
               <tr key={payment._id}>
                 <th>{index + 1}</th>
                 <td>{payment.parcelName}</td>
@@ -65,7 +68,7 @@ const Payments = () => {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </div>
@@ -73,4 +76,4 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+export default PaymentHistory;

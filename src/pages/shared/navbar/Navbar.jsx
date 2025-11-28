@@ -1,8 +1,8 @@
 import React from "react";
 import Logo from "../../../components/logo/Logo";
 import { Link, NavLink, useNavigate } from "react-router";
-import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -37,7 +37,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-secondary text-primary shadow-sm rounded-2xl p-5">
+    <div className="navbar text-primary shadow-sm rounded-2xl p-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -79,7 +79,7 @@ const Navbar = () => {
           ? <a onClick={handleLogout} className="btn btn-primary text-secondary">Logout</a>
           : <Link to={'/login'}>Login</Link>
         }
-        <Link to={'/rider'} className="btn btn-primary text-secondary mx-3">Be a Rider</Link>
+        <Link to={'/rider'} className="btn mx-3">Be a Rider</Link>
       </div>
     </div>
   );
