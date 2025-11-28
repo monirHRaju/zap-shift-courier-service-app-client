@@ -66,6 +66,7 @@ export const router = createBrowserRouter([
       {
         path: '/rider',
         element: <PrivateRoute><Rider></Rider></PrivateRoute>,
+        loader: () => fetch('/serviceCenters.json').then(res => res.json())
       }
     ]
   },

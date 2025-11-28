@@ -16,6 +16,7 @@ const PaymentHistory = () => {
         }
     })
     console.log('user info: ', user)
+    
     return (
     <div>
       <h2 className="text-5xl">All of my payments : {payments.length}</h2>
