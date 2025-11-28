@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../Hooks/useAuth";
 import authImage from "../../../assets/authImage.png";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
 const Register = () => {
   const { googleSignIn, updateUserProfile } = useAuth();
@@ -17,16 +18,17 @@ const Register = () => {
   } = useForm();
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(location)
+  const axiosSecure = useAxiosSecure()
   const { registerUser } = useAuth();
+
+  console.log(location)
 
   const handleRegister = (data) => {
     console.log("after register", data.photo[0]);
     const profileImg = data.photo[0]
     
     registerUser(data.email, data.password)
-      .then((result) => {
-        console.log("after register", result);
+      .then(() => {
         //store the image ang get the photo url
         // prepare the data for upload
         const formData = new FormData()
@@ -37,13 +39,27 @@ const Register = () => {
         
         axios.post(image_API_URL, formData)
         .then( res => {
-          console.log('after image upload', res.data.data.url)
-          //update profile with image url
+          const photoURL = res.data.data.url 
+          
+          // create user in the database
+          const userInfo = {
+            email : data.email,
+            displayName : data.name,
+            photoURL : photoURL
+          }
+          axiosSecure.post('/users', userInfo)
+          .then( res => {
+            if(res.data.insertedId){
+              console.log('user created in the database', res.data)
+            }
+          })
+
+          //update profile in firebase with image url
           const userProfile = {
             //get name from input data
             displayName : data.name,
             //get photo url from image upload response data
-            photoURL : res.data.data.url
+            photoURL : photoURL
           }
 
           updateUserProfile(userProfile)
@@ -52,7 +68,7 @@ const Register = () => {
 
 
 
-          // navigate( location?.state || '/')
+          navigate( location?.state || '/')
         setTimeout(() => {
           toast.success('Success! You are logged in.')
         }, 1000)
@@ -74,9 +90,22 @@ const Register = () => {
   const handleGoogleSignIn = () => {
     googleSignIn()
     .then((result) => {
-        console.log("after login", result);
+        console.log("after login", result.user);
 
-        navigate( location?.state || '/')
+        // navigate( location?.state || '/')
+        // create user in the database
+          const userInfo = {
+            email : result.user.email,
+            displayName : result.user.displayName,
+            photoURL : result.user.photoURL
+          }
+          axiosSecure.post('/users', userInfo)
+          .then( res => {
+            console.log( res.data )   
+            if(res.data.insertedId){
+              console.log('user created in the database', res.data)
+            }
+          })
         setTimeout(() => {
           toast.success('Success! You are logged in.')
         }, 1000)

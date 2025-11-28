@@ -6,7 +6,7 @@ import { auth } from '../../firebase/firebase.init';
 const googleProvider = new GoogleAuthProvider()
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     
 
     const registerUser = (email, password) => {
@@ -37,6 +37,9 @@ const AuthProvider = ({children}) => {
             unsubscribe()
         }
     }, [])
+    if(loading){
+        return <p>Loading ...</p>
+    }
     const authInfo = {
         registerUser,
         signInUser,

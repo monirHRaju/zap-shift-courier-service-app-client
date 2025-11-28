@@ -1,10 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../Hooks/useAuth";
 import authImage from '../../../assets/authImage.png'
 import { Link, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
+import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
   

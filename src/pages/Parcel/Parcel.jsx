@@ -2,8 +2,9 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
-import useAuth from "../../hooks/useAuth";
+
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
 
 const Parcel = () => {
   const serviceCenters = useLoaderData()
@@ -25,7 +26,7 @@ const Parcel = () => {
   } = useForm();
 
   // import user info
-  const {user} = useAuth()
+  const {user} = useAuth
 
   //import axios secure 
   const axiosSecure = useAxiosSecure()

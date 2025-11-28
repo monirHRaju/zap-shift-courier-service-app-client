@@ -2,7 +2,8 @@ import React from "react";
 import Logo from "../../../components/logo/Logo";
 import { Link, NavLink, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
+
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -37,7 +38,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar text-primary shadow-sm rounded-2xl p-5">
+    <div className="navbar bg-secondary text-primary shadow-sm rounded-2xl p-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
