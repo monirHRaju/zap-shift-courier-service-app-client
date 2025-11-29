@@ -21,6 +21,7 @@ import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory/PaymentHis
 import MyPayments from "../pages/Dashboard/Payment/PaymentHistory/MyPayments";
 import ApproveRiders from "../pages/Dashboard/Rider/ApproveRiders";
 import UserManagement from "../pages/Dashboard/UserManagement/UserManagement";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -104,7 +105,7 @@ export const router = createBrowserRouter([
       
       {
         path: 'user-management',
-        Component: UserManagement
+        element: <AdminRoute><UserManagement></UserManagement></AdminRoute>
       },
 
     ]

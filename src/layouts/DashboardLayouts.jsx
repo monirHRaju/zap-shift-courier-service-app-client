@@ -3,8 +3,12 @@ import { FaHouseMedical, FaMoneyBills, FaUsers } from "react-icons/fa6";
 import { AiOutlineProduct } from "react-icons/ai";
 import { MdDirectionsBike } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
+import useRole from "../Hooks/useRole";
 
 const DashboardLayouts = () => {
+  const { role } = useRole()
+ 
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -97,20 +101,25 @@ const DashboardLayouts = () => {
               </NavLink>
             </li>
             
-            <li>
-              <NavLink
-                to="/dashboard/user-management"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="User Management"
-              >
-                {/* Home icon */}
-                <FaUsers 
-                  className="my-1.5 inline-block size-4"
-                />
+            {
+              role === "admin" && <>
+                <li>
+                  <NavLink
+                    to="/dashboard/user-management"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="User Management"
+                  >
+                    {/* Home icon */}
+                    <FaUsers 
+                      className="my-1.5 inline-block size-4"
+                    />
 
-                <span className="is-drawer-close:hidden">User Management</span>
-              </NavLink>
-            </li>
+                    <span className="is-drawer-close:hidden">User Management</span>
+                  </NavLink>
+                </li>
+              </>
+            }
+            
             
             <li>
               <NavLink
