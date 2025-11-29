@@ -1,6 +1,7 @@
 import React from "react";
-import { FaHouseMedical, FaMoneyBills } from "react-icons/fa6";
+import { FaHouseMedical, FaMoneyBills, FaUsers } from "react-icons/fa6";
 import { AiOutlineProduct } from "react-icons/ai";
+import { MdDirectionsBike } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
 
 const DashboardLayouts = () => {
@@ -93,6 +94,36 @@ const DashboardLayouts = () => {
                 />
 
                 <span className="is-drawer-close:hidden">Payments</span>
+              </NavLink>
+            </li>
+            
+            <li>
+              <NavLink
+                to="/dashboard/user-management"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="User Management"
+              >
+                {/* Home icon */}
+                <FaUsers 
+                  className="my-1.5 inline-block size-4"
+                />
+
+                <span className="is-drawer-close:hidden">User Management</span>
+              </NavLink>
+            </li>
+            
+            <li>
+              <NavLink
+                to="/dashboard/approve-riders"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Approve Rider"
+              >
+                {/* Home icon */}
+                <MdDirectionsBike
+                  className="my-1.5 inline-block size-4"
+                />
+
+                <span className="is-drawer-close:hidden">Approve Rider</span>
               </NavLink>
             </li>
             
