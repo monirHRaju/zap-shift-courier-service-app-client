@@ -19,20 +19,6 @@ const MyParcels = () => {
         }
     })
 
-    // const handleCheckout = async (parcel) => {
-    //     const paymentInfo = {
-    //         cost: parcel.cost,
-    //         parcelId: parcel._id,
-    //         senderEmail: parcel.senderEmail,
-    //         parcelName: parcel.parcelName
-    //     }
-    //     console.log(parcel.cost);
-        
-    //     const res = await axiosSecure.post('/create-checkout-session', paymentInfo)
-    //     console.log(res.data.url)
-    //     // window.location.href = res.data.url
-    // }
-
     const handleParcelDelete = id => {
         console.log(id);
 
@@ -83,6 +69,7 @@ const MyParcels = () => {
                             <th>Name</th>
                             <th>Cost</th>
                             <th>Payment</th>
+                            <th>Tracking Id</th>
                             <th>Delivery Status</th>
                             <th>Actions</th>
                         </tr>
@@ -97,13 +84,13 @@ const MyParcels = () => {
                                     {
                                         parcel.paymentStatus === 'paid' ?
                                             <span className='text-green-400'>Paid</span>
-                                            :
+                                            : <Link to={`/dashboard/payment/${parcel._id}`}  className="btn btn-sm btn-primary text-black">Pay</Link>
                                             // <button onClick={() => handleCheckout(parcel)} className="btn btn-sm btn-primary text-black">Pay</button>
                                             
-                                            <Link to={`/dashboard/payment/${parcel._id}`}  className="btn btn-sm btn-primary text-black">Pay</Link>
 
                                     }
                                 </td>
+                                <td>{parcel.trackingId}</td>
                                 <td>{parcel.deliveryStatus}</td>
                                 <td>
                                     <button className='btn btn-square hover:bg-primary'>

@@ -26,7 +26,7 @@ const Parcel = () => {
   } = useForm();
 
   // import user info
-  const {user} = useAuth
+  const {user} = useAuth()
 
   //import axios secure 
   const axiosSecure = useAxiosSecure()
@@ -37,7 +37,7 @@ const Parcel = () => {
   // const receiverRegion = watch('receiverRegion')
   const receiverRegion =useWatch({control, name: 'receiverRegion'})
   // const senderDistrict = watch('senderDistrict')
-  // console.log(senderRegion)
+ 
 
   const districtsByRegion = region => {
     const regionDistricts = serviceCenters.filter( c => c.region === region )
@@ -88,16 +88,17 @@ Swal.fire({
       axiosSecure.post('/parcels', data)
       .then( res => {
         console.log('after saving parcel', res)
+        Swal.fire({
+        title: "Parcel Added!",
+        text: "Your Parcel has been placed.",
+        icon: "success"
+      });
       })
       .catch( e => {
         console.log('data save error', e)
       })
 
-    // Swal.fire({
-    //   title: "Parcel Added!",
-    //   text: "Your Parcel has been placed.",
-    //   icon: "success"
-    // });
+      
   }
 });
 

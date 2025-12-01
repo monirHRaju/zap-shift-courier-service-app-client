@@ -1,60 +1,57 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaTrash, FaUserShield } from "react-icons/fa6";
 import { FiShieldOff } from "react-icons/fi";
 import Swal from "sweetalert2";
 
 const UserManagement = () => {
+  const [searchText, setSearchText] = useState()
   const axiosSecure = useAxiosSecure();
-  
 
   const { refetch, data: users = [] } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", searchText],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get(`/users?search=${searchText}`);
 
       return res.data;
     },
   });
 
-  const handleMakeAdmin = user => {
-        const roleInfo = { role: 'admin' }
-        //TODO: must ask for confirmation before proceed
-        axiosSecure.patch(`/users/${user._id}/role`, roleInfo)
-            .then(res => {
-                console.log(res.data);
-                if (res.data.modifiedCount) {
-                    refetch();
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: `${user.displayName} marked as an Admin`,
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
-            })
-    }
+  const handleMakeAdmin = (user) => {
+    const roleInfo = { role: "admin" };
+    //TODO: must ask for confirmation before proceed
+    axiosSecure.patch(`/users/${user._id}/role`, roleInfo).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${user.displayName} marked as an Admin`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    });
+  };
 
-    const handleRemoveAdmin = user => {
-        const roleInfo = { role: 'user' }
-        //TODO: must ask for confirmation before proceed
-        axiosSecure.patch(`/users/${user._id}/role`, roleInfo)
-            .then(res => {
-                if (res.data.modifiedCount) {
-                    refetch();
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: `${user.displayName} removed from Admin`,
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
-            })
-    }
-
+  const handleRemoveAdmin = (user) => {
+    const roleInfo = { role: "user" };
+    //TODO: must ask for confirmation before proceed
+    axiosSecure.patch(`/users/${user._id}/role`, roleInfo).then((res) => {
+      if (res.data.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${user.displayName} removed from Admin`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -62,14 +59,19 @@ const UserManagement = () => {
         Users Management: {users.length}
       </h1>
       <div>
+        <div className="my-5">
+          <p>Search Text: {searchText}</p>
+          <label className="input">
+            
+            <input type="search" onChange={(e) => {setSearchText(e.target.value)}} className="grow" placeholder="Search users" />
+          </label>
+        </div>
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
             <thead>
               <tr>
-                <th>
-                  #
-                </th>
+                <th>#</th>
                 <th>User Info</th>
                 <th>Role</th>
                 <th>Created At</th>
@@ -80,9 +82,7 @@ const UserManagement = () => {
               {/* user data */}
               {users.map((user, index) => (
                 <tr key={user._id}>
-                  <th>
-                    {index + 1}
-                  </th>
+                  <th>{index + 1}</th>
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="avatar">
@@ -115,13 +115,14 @@ const UserManagement = () => {
                         <FiShieldOff></FiShieldOff>
                       </button>
                     ) : (
-                      <button 
-                      onClick={() => handleMakeAdmin(user)}
-                      className="btn btn-info text-white btn-xs">
+                      <button
+                        onClick={() => handleMakeAdmin(user)}
+                        className="btn btn-info text-white btn-xs"
+                      >
                         <FaUserShield></FaUserShield>
                       </button>
                     )}
-{/* 
+                    {/* 
                     <button className="btn btn-error text-white btn-xs">
                       <FaTrash></FaTrash>
                     </button> */}

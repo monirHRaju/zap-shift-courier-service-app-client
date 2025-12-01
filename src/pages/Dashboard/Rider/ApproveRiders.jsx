@@ -17,8 +17,8 @@ const ApproveRiders = () => {
     },
   });
 
-  const updateRiderStatus = (rider, status) => {
-    const updateInfo = { status: status, email: rider.email };
+  const updateRiderStatus = (rider, applicationStatus, workStatus) => {
+    const updateInfo = { applicationStatus: applicationStatus, email: rider.email, workStatus:workStatus };
     axiosSecure.patch(`/riders/${rider._id}`, updateInfo).then((res) => {
       if (res.data.modifiedCount) {
         refetch();
@@ -26,7 +26,7 @@ const ApproveRiders = () => {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: `Rider status set to: ${status} `,
+          title: `Rider status set to: ${applicationStatus} `,
           showConfirmButton: false,
           timer: 1500,
         });
@@ -35,10 +35,10 @@ const ApproveRiders = () => {
   };
 
   const handleApproveRider = (rider) => {
-    updateRiderStatus(rider, "approved");
+    updateRiderStatus(rider, "approved", "available");
   };
   const handleRejectionRider = (rider) => {
-    updateRiderStatus(rider, "rejected")
+    updateRiderStatus(rider, "rejected", "unavailable")
   }
   return (
     <div>
@@ -54,7 +54,8 @@ const ApproveRiders = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Region-District</th>
-                <th>Status</th>
+                <th>Application Status</th>
+                <th>Work Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -76,6 +77,7 @@ const ApproveRiders = () => {
                         : <span className="bg-error p-2">{rider.status}</span>
                     }
                   </td>
+                  <td>{rider.workStatus}</td>
                   <td>
                     <button
                       className="btn btn-secondary btn-sm"

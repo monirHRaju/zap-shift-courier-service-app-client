@@ -1,13 +1,13 @@
 import React from "react";
 import { FaHouseMedical, FaMoneyBills, FaUsers } from "react-icons/fa6";
 import { AiOutlineProduct } from "react-icons/ai";
+import { RiEBikeFill } from "react-icons/ri";
 import { MdDirectionsBike } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router";
 import useRole from "../Hooks/useRole";
 
 const DashboardLayouts = () => {
-  const { role } = useRole()
- 
+  const { role } = useRole();
 
   return (
     <div className="drawer lg:drawer-open">
@@ -40,9 +40,7 @@ const DashboardLayouts = () => {
         </nav>
         {/* Page content here */}
         <div className="p-4">
-            
-            <Outlet></Outlet>
-
+          <Outlet></Outlet>
         </div>
       </div>
 
@@ -58,14 +56,12 @@ const DashboardLayouts = () => {
             {/* List item */}
             <li>
               <NavLink
-                to={'/'}
+                to={"/"}
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Homepage"
               >
                 {/* Home icon */}
-                <FaHouseMedical 
-                  className="my-1.5 inline-block size-4"
-                />
+                <FaHouseMedical className="my-1.5 inline-block size-4" />
                 <span className="is-drawer-close:hidden">Homepage</span>
               </NavLink>
             </li>
@@ -78,14 +74,12 @@ const DashboardLayouts = () => {
                 data-tip="Parcels"
               >
                 {/* Home icon */}
-                <AiOutlineProduct
-                  className="my-1.5 inline-block size-4"
-                />
+                <AiOutlineProduct className="my-1.5 inline-block size-4" />
 
                 <span className="is-drawer-close:hidden">Parcels</span>
               </NavLink>
             </li>
-            
+
             <li>
               <NavLink
                 to="/dashboard/payment-history"
@@ -93,16 +87,27 @@ const DashboardLayouts = () => {
                 data-tip="Payment History"
               >
                 {/* Home icon */}
-                <FaMoneyBills
-                  className="my-1.5 inline-block size-4"
-                />
+                <FaMoneyBills className="my-1.5 inline-block size-4" />
 
                 <span className="is-drawer-close:hidden">Payments</span>
               </NavLink>
             </li>
-            
-            {
-              role === "admin" && <>
+
+            {role === "admin" && (
+              <>
+                <li>
+                  <NavLink
+                    to="/dashboard/assign-rider"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="assign Rider"
+                  >
+                    {/* Home icon */}
+                    <RiEBikeFill className="my-1.5 inline-block size-4" />
+
+                    <span className="is-drawer-close:hidden">assign Rider</span>
+                  </NavLink>
+                </li>
+
                 <li>
                   <NavLink
                     to="/dashboard/user-management"
@@ -110,17 +115,16 @@ const DashboardLayouts = () => {
                     data-tip="User Management"
                   >
                     {/* Home icon */}
-                    <FaUsers 
-                      className="my-1.5 inline-block size-4"
-                    />
+                    <FaUsers className="my-1.5 inline-block size-4" />
 
-                    <span className="is-drawer-close:hidden">User Management</span>
+                    <span className="is-drawer-close:hidden">
+                      User Management
+                    </span>
                   </NavLink>
                 </li>
               </>
-            }
-            
-            
+            )}
+
             <li>
               <NavLink
                 to="/dashboard/approve-riders"
@@ -128,16 +132,11 @@ const DashboardLayouts = () => {
                 data-tip="Approve Rider"
               >
                 {/* Home icon */}
-                <MdDirectionsBike
-                  className="my-1.5 inline-block size-4"
-                />
+                <MdDirectionsBike className="my-1.5 inline-block size-4" />
 
                 <span className="is-drawer-close:hidden">Approve Rider</span>
               </NavLink>
             </li>
-            
-            
-            
           </ul>
         </div>
       </div>
