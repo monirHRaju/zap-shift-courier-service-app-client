@@ -104,7 +104,7 @@ const DashboardLayouts = () => {
                     {/* Home icon */}
                     <RiEBikeFill className="my-1.5 inline-block size-4" />
 
-                    <span className="is-drawer-close:hidden">assign Rider</span>
+                    <span className="is-drawer-close:hidden">Assign Rider</span>
                   </NavLink>
                 </li>
 
