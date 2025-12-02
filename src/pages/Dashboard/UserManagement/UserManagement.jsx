@@ -9,7 +9,7 @@ const UserManagement = () => {
   const [searchText, setSearchText] = useState()
   const axiosSecure = useAxiosSecure();
 
-  const { refetch, data: users = [] } = useQuery({
+  const { refetch:usersRefetch, data: users = [] } = useQuery({
     queryKey: ["users", searchText],
     queryFn: async () => {
       const res = await axiosSecure.get(`/users?search=${searchText}`);
@@ -24,7 +24,7 @@ const UserManagement = () => {
     axiosSecure.patch(`/users/${user._id}/role`, roleInfo).then((res) => {
       console.log(res.data);
       if (res.data.modifiedCount) {
-        refetch();
+        usersRefetch();
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -41,7 +41,7 @@ const UserManagement = () => {
     //TODO: must ask for confirmation before proceed
     axiosSecure.patch(`/users/${user._id}/role`, roleInfo).then((res) => {
       if (res.data.modifiedCount) {
-        refetch();
+        usersRefetch();
         Swal.fire({
           position: "top-end",
           icon: "success",
