@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaTrash, FaUserShield } from "react-icons/fa6";
 import { FiShieldOff } from "react-icons/fi";
 import Swal from "sweetalert2";
